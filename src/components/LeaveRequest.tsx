@@ -7,7 +7,7 @@ import { fetchLeaveEntitlements } from "@/services/myobService";
 import { sendLeaveRequestEmail } from "@/services/emailService";
 import { useQuery } from "@tanstack/react-query";
 import { toast } from "@/components/ui/use-toast";
-import { DatePicker } from "@/components/ui/calendar";
+import { Calendar } from "@/components/ui/calendar";
 
 export const LeaveRequest = () => {
   const [employeeId, setEmployeeId] = useState("");
@@ -93,18 +93,20 @@ export const LeaveRequest = () => {
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label>Start Date</Label>
-              <DatePicker
+              <Calendar
+                mode="single"
                 selected={startDate}
                 onSelect={setStartDate}
-                required
+                className="rounded-md border"
               />
             </div>
             <div className="space-y-2">
               <Label>End Date</Label>
-              <DatePicker
+              <Calendar
+                mode="single"
                 selected={endDate}
                 onSelect={setEndDate}
-                required
+                className="rounded-md border"
               />
             </div>
           </div>
