@@ -14,12 +14,14 @@ export const LeaveRequest = () => {
     queryKey: ['leaveEntitlements', employeeId],
     queryFn: () => fetchLeaveEntitlements(employeeId),
     enabled: !!employeeId,
-    onError: () => {
-      toast({
-        title: "Error",
-        description: "Failed to fetch leave entitlements. Please try again.",
-        variant: "destructive",
-      });
+    meta: {
+      onError: () => {
+        toast({
+          title: "Error",
+          description: "Failed to fetch leave entitlements. Please try again.",
+          variant: "destructive",
+        });
+      }
     }
   });
 
