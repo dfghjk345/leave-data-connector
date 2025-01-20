@@ -11,7 +11,7 @@ export const sendLeaveRequestEmail = async (
   employeeId: string,
   requestData: LeaveRequestData
 ) => {
-  // Replace this URL with your actual Power Automate HTTP trigger URL
+  // This URL should be updated with your actual Power Automate HTTP trigger URL
   const POWER_AUTOMATE_URL = "YOUR_POWER_AUTOMATE_FLOW_URL";
 
   try {
