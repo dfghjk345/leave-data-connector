@@ -4,11 +4,17 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { fetchLeaveEntitlements } from "@/services/myobService";
+import { sendLeaveRequestEmail } from "@/services/emailService";
 import { useQuery } from "@tanstack/react-query";
 import { toast } from "@/components/ui/use-toast";
+import { DatePicker } from "@/components/ui/calendar";
 
 export const LeaveRequest = () => {
   const [employeeId, setEmployeeId] = useState("");
+  const [startDate, setStartDate] = useState<Date>();
+  const [endDate, setEndDate] = useState<Date>();
+  const [managerEmail, setManagerEmail] = useState("");
+  const [leaveType, setLeaveType] = useState("Annual Leave");
 
   const { data: leaveEntitlements, isLoading, error, refetch } = useQuery({
     queryKey: ['leaveEntitlements', employeeId],
@@ -25,10 +31,28 @@ export const LeaveRequest = () => {
     }
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (employeeId) {
-      refetch();
+    if (employeeId && startDate && endDate && managerEmail) {
+      try {
+        await sendLeaveRequestEmail(managerEmail, employeeId, {
+          startDate: startDate.toISOString().split('T')[0],
+          endDate: endDate.toISOString().split('T')[0],
+          leaveType,
+          entitlements: leaveEntitlements || []
+        });
+        
+        toast({
+          title: "Success",
+          description: "Leave request sent to manager for approval",
+        });
+      } catch (error) {
+        toast({
+          title: "Error",
+          description: "Failed to send leave request email",
+          variant: "destructive",
+        });
+      }
     }
   };
 
@@ -48,11 +72,65 @@ export const LeaveRequest = () => {
                 placeholder="Enter employee ID"
                 className="flex-1"
               />
-              <Button type="submit" disabled={!employeeId || isLoading}>
+              <Button type="button" onClick={() => refetch()} disabled={!employeeId || isLoading}>
                 {isLoading ? "Loading..." : "Check Balance"}
               </Button>
             </div>
           </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="managerEmail">Manager's Email</Label>
+            <Input
+              id="managerEmail"
+              type="email"
+              value={managerEmail}
+              onChange={(e) => setManagerEmail(e.target.value)}
+              placeholder="manager@company.com"
+              required
+            />
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label>Start Date</Label>
+              <DatePicker
+                selected={startDate}
+                onSelect={setStartDate}
+                required
+              />
+            </div>
+            <div className="space-y-2">
+              <Label>End Date</Label>
+              <DatePicker
+                selected={endDate}
+                onSelect={setEndDate}
+                required
+              />
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="leaveType">Leave Type</Label>
+            <select
+              id="leaveType"
+              value={leaveType}
+              onChange={(e) => setLeaveType(e.target.value)}
+              className="w-full border rounded-md p-2"
+              required
+            >
+              <option value="Annual Leave">Annual Leave</option>
+              <option value="Sick Leave">Sick Leave</option>
+              <option value="Personal Leave">Personal Leave</option>
+            </select>
+          </div>
+
+          <Button 
+            type="submit" 
+            className="w-full"
+            disabled={!employeeId || !startDate || !endDate || !managerEmail}
+          >
+            Submit Leave Request
+          </Button>
         </form>
 
         {isLoading && (

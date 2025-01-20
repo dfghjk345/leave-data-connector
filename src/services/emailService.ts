@@ -59,7 +59,10 @@ export const sendLeaveRequestEmail = async (
       .map(e => `${e.leaveType}: ${e.balance} ${e.unit}`)
       .join('\n')}
     
-    Please review and approve/reject this request.
+    Please review and approve/reject this request by replying to this email.
+    
+    Approve: Reply with "APPROVED"
+    Reject: Reply with "REJECTED" and include a reason.
   `;
 
   return sendEmail({
