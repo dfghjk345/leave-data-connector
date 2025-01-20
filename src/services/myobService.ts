@@ -11,10 +11,10 @@ export const fetchLeaveEntitlements = async (employeeId: string): Promise<LeaveE
   try {
     // This is a placeholder for the actual MYOB API call
     // You'll need to implement the actual API call using the MYOB credentials
-    const response = await fetch(`YOUR_MYOB_API_ENDPOINT/employees/${employeeId}/leave-entitlements`, {
+    const response = await fetch(`${import.meta.env.VITE_MYOB_API_ENDPOINT}/employees/${employeeId}/leave-entitlements`, {
       headers: {
-        'Authorization': `Bearer ${process.env.MYOB_ACCESS_TOKEN}`,
-        'x-myobapi-key': process.env.MYOB_API_KEY,
+        'Authorization': `Bearer ${import.meta.env.VITE_MYOB_ACCESS_TOKEN}`,
+        'x-myobapi-key': import.meta.env.VITE_MYOB_API_KEY,
         'x-myobapi-version': 'v2',
       }
     });

@@ -3,8 +3,8 @@ import { PublicClientApplication } from "@azure/msal-browser";
 
 const msalConfig = {
   auth: {
-    clientId: process.env.SHAREPOINT_CLIENT_ID || '',
-    authority: `https://login.microsoftonline.com/${process.env.TENANT_ID}`,
+    clientId: import.meta.env.VITE_SHAREPOINT_CLIENT_ID || '',
+    authority: `https://login.microsoftonline.com/${import.meta.env.VITE_TENANT_ID}`,
     redirectUri: window.location.origin,
   }
 };
@@ -34,7 +34,7 @@ export const submitLeaveRequest = async (leaveData: {
 
     // Submit to SharePoint list
     await client
-      .api(`/sites/${process.env.SHAREPOINT_SITE_ID}/lists/${process.env.SHAREPOINT_LIST_ID}/items`)
+      .api(`/sites/${import.meta.env.VITE_SHAREPOINT_SITE_ID}/lists/${import.meta.env.VITE_SHAREPOINT_LIST_ID}/items`)
       .post({
         fields: {
           Title: `Leave Request - ${leaveData.employeeId}`,
