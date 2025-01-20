@@ -1,7 +1,6 @@
 import { toast } from "@/components/ui/use-toast";
 
 interface LeaveEntitlement {
-  employeeId: string;
   leaveType: string;
   balance: number;
   unit: string;
@@ -9,8 +8,22 @@ interface LeaveEntitlement {
 
 export const fetchLeaveEntitlements = async (employeeId: string): Promise<LeaveEntitlement[]> => {
   try {
-    // This is a placeholder for the actual MYOB API call
-    // You'll need to implement the actual API call using the MYOB credentials
+    // For testing, return mock data first
+    return [
+      {
+        leaveType: "Annual Leave",
+        balance: 20,
+        unit: "days"
+      },
+      {
+        leaveType: "Sick Leave",
+        balance: 10,
+        unit: "days"
+      }
+    ];
+    
+    // Once you've confirmed the form works, uncomment this code:
+    /*
     const response = await fetch(`${import.meta.env.VITE_MYOB_API_ENDPOINT}/employees/${employeeId}/leave-entitlements`, {
       headers: {
         'Authorization': `Bearer ${import.meta.env.VITE_MYOB_ACCESS_TOKEN}`,
@@ -25,6 +38,7 @@ export const fetchLeaveEntitlements = async (employeeId: string): Promise<LeaveE
 
     const data = await response.json();
     return data;
+    */
   } catch (error) {
     console.error('Error fetching leave entitlements:', error);
     toast({
