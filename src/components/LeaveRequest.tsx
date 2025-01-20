@@ -36,6 +36,7 @@ export const LeaveRequest = () => {
     if (employeeId && startDate && endDate && managerEmail) {
       try {
         await sendLeaveRequestEmail(managerEmail, employeeId, {
+          employeeId,
           startDate: startDate.toISOString().split('T')[0],
           endDate: endDate.toISOString().split('T')[0],
           leaveType,
