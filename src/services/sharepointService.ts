@@ -1,15 +1,20 @@
 import { Client } from "@microsoft/microsoft-graph-client";
-import { AuthenticationProvider } from "@microsoft/microsoft-graph-client";
+import { AuthProvider, AuthProviderCallback } from "@microsoft/microsoft-graph-client";
 
-class SharePointAuthProvider implements AuthenticationProvider {
+class SharePointAuthProvider implements AuthProvider {
   private accessToken: string;
 
   constructor(accessToken: string) {
     this.accessToken = accessToken;
   }
 
-  async getAccessToken(): Promise<string> {
-    return this.accessToken;
+  // Implement the correct interface method
+  public async getAccessToken(authProviderCallback: AuthProviderCallback): Promise<void> {
+    try {
+      authProviderCallback(null, this.accessToken);
+    } catch (error) {
+      authProviderCallback(error as Error, null);
+    }
   }
 }
 
