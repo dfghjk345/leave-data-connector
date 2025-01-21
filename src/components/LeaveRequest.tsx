@@ -37,11 +37,13 @@ export const LeaveRequest = () => {
             </ul>
           </li>
           <li className="mb-4">
-            <span className="font-semibold">MYOB Connection:</span>
+            <span className="font-semibold">MYOB AccountRight Connection:</span>
             <ul className="list-disc list-inside ml-6 mt-2">
-              <li>Add "MYOB Advanced" connector</li>
-              <li>Configure authentication</li>
-              <li>Add "Get Leave Balances" action</li>
+              <li>Add "MYOB AccountRight" connector</li>
+              <li>Sign in to your MYOB account</li>
+              <li>Select your company file</li>
+              <li>Use "Get Employees" action to retrieve employee list</li>
+              <li>Add "Get Payroll Details" action for leave balances</li>
             </ul>
           </li>
           <li className="mb-4">
@@ -54,11 +56,11 @@ export const LeaveRequest = () => {
             </ul>
           </li>
           <li>
-            <span className="font-semibold">Data Transformation:</span>
+            <span className="font-semibold">Data Formatting:</span>
             <ul className="list-disc list-inside ml-6 mt-2">
-              <li>Add "Select" action to format data</li>
-              <li>Convert to CSV format</li>
-              <li>Configure error notifications</li>
+              <li>Use "Select" action to format employee data</li>
+              <li>Format leave balances into CSV structure</li>
+              <li>Add error notification email step</li>
             </ul>
           </li>
         </ol>
@@ -76,11 +78,11 @@ export const LeaveRequest = () => {
       <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
         <h3 className="text-lg font-semibold text-blue-800 mb-2">Benefits of Power Automate</h3>
         <ul className="list-disc list-inside space-y-2 text-gray-600">
-          <li>No code required - visual workflow builder</li>
-          <li>Runs automatically on schedule</li>
+          <li>Works with standard MYOB AccountRight</li>
+          <li>No coding required - visual workflow builder</li>
+          <li>Automatic daily synchronization</li>
           <li>Built-in error handling and notifications</li>
           <li>Secure Microsoft 365 integration</li>
-          <li>No hosting or maintenance needed</li>
         </ul>
       </div>
     </div>
