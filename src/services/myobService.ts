@@ -1,5 +1,56 @@
+import { toast } from "@/components/ui/use-toast";
+
+interface MYOBAuthConfig {
+  clientId: string;
+  clientSecret: string;
+  apiKey: string;
+}
+
+interface LeaveBalance {
+  employeeId: string;
+  leaveType: string;
+  balance: number;
+  unit: string;
+}
+
+export const getLeaveBalances = async (employeeId: string): Promise<LeaveBalance[]> => {
+  try {
+    // This would be your actual API endpoint
+    const response = await fetch(`https://api.myob.com/accountright/v2/Employee/${employeeId}/LeaveBalances`, {
+      headers: {
+        'x-myobapi-version': 'v2',
+        'x-myobapi-key': 'YOUR_API_KEY',
+        'Authorization': 'Bearer YOUR_ACCESS_TOKEN',
+        'Accept': 'application/json'
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch leave balances');
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    toast({
+      title: "Error",
+      description: "Failed to fetch leave balances from MYOB",
+      variant: "destructive",
+    });
+    console.error('Error fetching leave balances:', error);
+    return [];
+  }
+};
+
+// Example data structure for testing
+export const leaveEntitlementExample = [
+  { employeeId: "EMP123", leaveType: "Annual Leave", balance: 20, unit: "days" },
+  { employeeId: "EMP123", leaveType: "Sick Leave", balance: 10, unit: "days" },
+  { employeeId: "EMP123", leaveType: "Personal Leave", balance: 5, unit: "days" }
+];
+
 // Types for the SharePoint form data structure
-interface LeaveRequest {
+export interface LeaveRequest {
   employeeId: string;
   employeeName: string;
   leaveType: string;
@@ -7,13 +58,6 @@ interface LeaveRequest {
   endDate: string;
   totalDays: number;
   reason: string;
-}
-
-// Types for the MYOB data structure
-interface LeaveEntitlement {
-  leaveType: string;
-  balance: number;
-  unit: string;
 }
 
 // Example SharePoint form data
@@ -26,13 +70,6 @@ export const sharePointFormExample: LeaveRequest = {
   totalDays: 5,
   reason: "Family vacation"
 };
-
-// Example MYOB leave balance data
-export const leaveEntitlementExample: LeaveEntitlement[] = [
-  { leaveType: "Annual Leave", balance: 20, unit: "days" },
-  { leaveType: "Sick Leave", balance: 10, unit: "days" },
-  { leaveType: "Personal Leave", balance: 5, unit: "days" }
-];
 
 // Example of the Power Automate email template
 export const emailTemplateExample = `
