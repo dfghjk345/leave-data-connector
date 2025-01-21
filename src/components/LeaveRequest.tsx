@@ -29,21 +29,20 @@ export const LeaveRequest = () => {
         <h2 className="text-2xl font-bold mb-4">Power Automate Integration Steps</h2>
         <ol className="list-decimal list-inside space-y-2 text-gray-600">
           <li className="mb-4">
-            <span className="font-semibold">Power Automate Setup:</span>
+            <span className="font-semibold">MYOB Developer Account Setup:</span>
             <ul className="list-disc list-inside ml-6 mt-2">
-              <li>Open Power Automate (flow.microsoft.com)</li>
-              <li>Create a new scheduled flow</li>
-              <li>Set the schedule to run daily</li>
+              <li>Register at MYOB Developer Portal (developer.myob.com)</li>
+              <li>Create a new app to get API credentials</li>
+              <li>Note down Client ID and Client Secret</li>
             </ul>
           </li>
           <li className="mb-4">
-            <span className="font-semibold">MYOB AccountRight Connection:</span>
+            <span className="font-semibold">Power Automate Custom Connector:</span>
             <ul className="list-disc list-inside ml-6 mt-2">
-              <li>Add "MYOB AccountRight" connector</li>
-              <li>Sign in to your MYOB account</li>
-              <li>Select your company file</li>
-              <li>Use "Get Employees" action to retrieve employee list</li>
-              <li>Add "Get Payroll Details" action for leave balances</li>
+              <li>Create new custom connector in Power Automate</li>
+              <li>Use MYOB API specifications (available in developer portal)</li>
+              <li>Configure OAuth2 authentication</li>
+              <li>Add required endpoints for employee and leave data</li>
             </ul>
           </li>
           <li className="mb-4">
@@ -56,11 +55,12 @@ export const LeaveRequest = () => {
             </ul>
           </li>
           <li>
-            <span className="font-semibold">Data Formatting:</span>
+            <span className="font-semibold">Flow Configuration:</span>
             <ul className="list-disc list-inside ml-6 mt-2">
-              <li>Use "Select" action to format employee data</li>
-              <li>Format leave balances into CSV structure</li>
-              <li>Add error notification email step</li>
+              <li>Set up daily schedule trigger</li>
+              <li>Add authentication steps for MYOB API</li>
+              <li>Configure data mapping to CSV format</li>
+              <li>Add error handling and notifications</li>
             </ul>
           </li>
         </ol>
@@ -76,12 +76,12 @@ export const LeaveRequest = () => {
       </div>
 
       <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
-        <h3 className="text-lg font-semibold text-blue-800 mb-2">Benefits of Power Automate</h3>
+        <h3 className="text-lg font-semibold text-blue-800 mb-2">Important Notes</h3>
         <ul className="list-disc list-inside space-y-2 text-gray-600">
-          <li>Works with standard MYOB AccountRight</li>
-          <li>No coding required - visual workflow builder</li>
+          <li>Requires MYOB Developer account (free)</li>
+          <li>Uses MYOB's REST API for secure access</li>
+          <li>Custom connector setup needed once</li>
           <li>Automatic daily synchronization</li>
-          <li>Built-in error handling and notifications</li>
           <li>Secure Microsoft 365 integration</li>
         </ul>
       </div>
