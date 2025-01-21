@@ -1,5 +1,5 @@
 import { Client } from "@microsoft/microsoft-graph-client";
-import { AuthProvider } from "@microsoft/microsoft-graph-client";
+import { AuthProvider, AuthProviderCallback } from "@microsoft/microsoft-graph-client";
 
 class SharePointAuthProvider implements AuthProvider {
   private accessToken: string;
@@ -8,8 +8,7 @@ class SharePointAuthProvider implements AuthProvider {
     this.accessToken = accessToken;
   }
 
-  // This implements the AuthProvider interface's required signature
-  (done: AuthProviderCallback): void {
+  public getAccessToken(done: AuthProviderCallback): void {
     done(null, this.accessToken);
   }
 }
@@ -24,7 +23,7 @@ export const uploadToSharePoint = async (
   try {
     const authProvider = new SharePointAuthProvider(accessToken);
     const client = Client.init({
-      authProvider,
+      authProvider: authProvider as AuthProvider,
     });
 
     // Convert string content to ArrayBuffer
