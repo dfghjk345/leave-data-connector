@@ -10,18 +10,18 @@ export const LeaveRequest = () => {
             <span className="font-semibold">Trigger:</span> When a new SharePoint form is submitted
           </li>
           <li className="mb-4">
-            <span className="font-semibold">Get MYOB Data:</span>
+            <span className="font-semibold">Get MYOB Data (CSV Method):</span>
             <ul className="list-disc list-inside ml-6 mt-2">
-              <li>Use HTTP action to call MYOB API</li>
-              <li>Endpoint: Your MYOB API endpoint</li>
-              <li>Method: GET</li>
-              <li>Include employee ID in the request</li>
+              <li>Configure MYOB scheduled CSV export of leave balances</li>
+              <li>Save CSV to designated SharePoint library</li>
+              <li>Use "Get file content" action to read CSV</li>
+              <li>Parse CSV content using "Parse CSV" action</li>
             </ul>
           </li>
           <li className="mb-4">
             <span className="font-semibold">Format Data:</span>
             <ul className="list-disc list-inside ml-6 mt-2">
-              <li>Parse MYOB response JSON</li>
+              <li>Filter CSV data for specific employee ID</li>
               <li>Create HTML table for leave balances</li>
               <li>Replace placeholders in email template</li>
             </ul>
@@ -37,6 +37,22 @@ export const LeaveRequest = () => {
         </ol>
       </div>
 
+      <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
+        <h3 className="text-lg font-semibold text-blue-800 mb-2">CSV Export Setup Instructions</h3>
+        <ol className="list-decimal list-inside space-y-2 text-blue-700">
+          <li>In MYOB, go to Reports → Leave Reports</li>
+          <li>Select "Leave Balances Report"</li>
+          <li>Configure export settings:
+            <ul className="list-disc list-inside ml-6 mt-1 text-blue-600">
+              <li>Format: CSV</li>
+              <li>Schedule: Daily (recommended)</li>
+              <li>Export Path: Your SharePoint library path</li>
+            </ul>
+          </li>
+          <li>Enable automatic export schedule</li>
+        </ol>
+      </div>
+
       <div>
         <h3 className="text-xl font-bold mb-3">SharePoint Form Data Structure</h3>
         <pre className="bg-gray-100 p-4 rounded overflow-auto">
@@ -45,7 +61,7 @@ export const LeaveRequest = () => {
       </div>
 
       <div>
-        <h3 className="text-xl font-bold mb-3">MYOB Data Structure</h3>
+        <h3 className="text-xl font-bold mb-3">MYOB CSV Data Structure</h3>
         <pre className="bg-gray-100 p-4 rounded overflow-auto">
           {JSON.stringify(leaveEntitlementExample, null, 2)}
         </pre>
