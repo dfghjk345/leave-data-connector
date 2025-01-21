@@ -4,7 +4,7 @@ import { useState } from "react";
 
 // SharePoint document client configuration
 const SHAREPOINT_CONFIG = {
-  siteUrl: process.env.SHAREPOINT_SITE_URL || '',
+  siteUrl: import.meta.env.VITE_SHAREPOINT_SITE_URL || '',
   libraryName: 'LeaveRequests',
   csvFileName: 'leave_balances.csv'
 };
