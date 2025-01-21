@@ -1,5 +1,5 @@
 import { Client } from "@microsoft/microsoft-graph-client";
-import { AuthProvider, AuthProviderCallback } from "@microsoft/microsoft-graph-client";
+import { AuthProvider } from "@microsoft/microsoft-graph-client";
 
 class SharePointAuthProvider implements AuthProvider {
   private accessToken: string;
@@ -8,8 +8,8 @@ class SharePointAuthProvider implements AuthProvider {
     this.accessToken = accessToken;
   }
 
-  // Implement the call signature method required by AuthProvider
-  public call(done: AuthProviderCallback): void {
+  // This implements the AuthProvider interface's required signature
+  (done: AuthProviderCallback): void {
     done(null, this.accessToken);
   }
 }
