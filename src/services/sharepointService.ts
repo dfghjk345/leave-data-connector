@@ -8,8 +8,8 @@ class SharePointAuthProvider implements AuthProvider {
     this.accessToken = accessToken;
   }
 
-  // Implement the call signature required by AuthProvider
-  call(done: AuthProviderCallback): void {
+  // Implement the AuthProvider interface correctly by making the class itself callable
+  public async call(done: AuthProviderCallback): Promise<void> {
     done(null, this.accessToken);
   }
 }
