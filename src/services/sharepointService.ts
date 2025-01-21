@@ -8,13 +8,9 @@ class SharePointAuthProvider implements AuthProvider {
     this.accessToken = accessToken;
   }
 
-  // Implement the correct interface method
-  public async getAccessToken(authProviderCallback: AuthProviderCallback): Promise<void> {
-    try {
-      authProviderCallback(null, this.accessToken);
-    } catch (error) {
-      authProviderCallback(error as Error, null);
-    }
+  // Implement the call signature method required by AuthProvider
+  public call(done: AuthProviderCallback): void {
+    done(null, this.accessToken);
   }
 }
 
