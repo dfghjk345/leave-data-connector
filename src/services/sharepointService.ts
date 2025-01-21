@@ -8,7 +8,8 @@ class SharePointAuthProvider implements AuthProvider {
     this.accessToken = accessToken;
   }
 
-  public getAccessToken(done: AuthProviderCallback): void {
+  // Implement the call signature required by AuthProvider
+  call(done: AuthProviderCallback): void {
     done(null, this.accessToken);
   }
 }
@@ -23,7 +24,7 @@ export const uploadToSharePoint = async (
   try {
     const authProvider = new SharePointAuthProvider(accessToken);
     const client = Client.init({
-      authProvider: authProvider as AuthProvider,
+      authProvider: authProvider,
     });
 
     // Convert string content to ArrayBuffer
