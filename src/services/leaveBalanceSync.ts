@@ -1,9 +1,17 @@
-import { getLeaveBalances, leaveEntitlementExample } from './myobService';
+import { getLeaveBalances } from './myobService';
+import { uploadToSharePoint } from './sharepointService';
 import * as fs from 'fs';
 import * as path from 'path';
 
 // List of employee IDs to process
 const EMPLOYEE_IDS = ['EMP123', 'EMP124', 'EMP125']; // Add your employee IDs here
+
+// SharePoint configuration
+const SHAREPOINT_CONFIG = {
+  siteId: process.env.SHAREPOINT_SITE_ID || '',
+  libraryName: 'LeaveBalances',
+  accessToken: process.env.SHAREPOINT_ACCESS_TOKEN || '',
+};
 
 interface LeaveBalanceRecord {
   date: string;
@@ -39,19 +47,32 @@ async function syncLeaveBalances() {
     }
   }
 
-  // Export to CSV
+  // Generate CSV content
   const csvContent = generateCSV(records);
+  const fileName = `leave-balances-${today}.csv`;
+
+  // Save locally
   const outputDir = path.join(__dirname, '../../leave-balances');
-  
   if (!fs.existsSync(outputDir)) {
     fs.mkdirSync(outputDir, { recursive: true });
   }
-
-  const fileName = `leave-balances-${today}.csv`;
   const filePath = path.join(outputDir, fileName);
-  
   fs.writeFileSync(filePath, csvContent);
   console.log(`Leave balances exported to ${filePath}`);
+
+  // Upload to SharePoint
+  try {
+    await uploadToSharePoint(
+      csvContent,
+      fileName,
+      SHAREPOINT_CONFIG.siteId,
+      SHAREPOINT_CONFIG.libraryName,
+      SHAREPOINT_CONFIG.accessToken
+    );
+    console.log('Successfully uploaded to SharePoint');
+  } catch (error) {
+    console.error('Failed to upload to SharePoint:', error);
+  }
 }
 
 function generateCSV(records: LeaveBalanceRecord[]): string {
@@ -70,5 +91,4 @@ function generateCSV(records: LeaveBalanceRecord[]): string {
   ].join('\n');
 }
 
-// Export for use in cron job
 export { syncLeaveBalances };
